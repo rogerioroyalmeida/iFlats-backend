@@ -79,12 +79,16 @@ function execSQLQuery(sqlQry, res){
   });
 
   connection.query(sqlQry, function(error, results, fields){
-      if(error) 
-          res.json(error);
-      else
-          res.json(results);
+      if(error) {
+        res.json(error);
+        console.log('Executou query Usuario! Deu ERRO: \n' + error);
+      }
+      else {
+        res.json(results);
+        console.log('Executou query Usuario! Deu CERTO query= \n' + sqlQry);
+      }
       connection.end();
-      console.log('Executou query Usuario!');
+      
   });
 }
 

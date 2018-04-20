@@ -34,73 +34,75 @@ export class Flat {
 
     private snAtivo: string;
 
-    constructor(    dsTituloAnuncio: string,
-                    endereco: string,
-                    numero: number,
-                    complemento: string,
-                    pais: string,
-                    estado: string,
-                    cidade: string,
-                    bairro: string,
-                    cep: string,
-                    snCondominio: string,
-                    nrQuartos: number,
-                    nrBanheiros: number,
-                    nrMaxPessoas: number,
-                    vlBasicoDiaria: number,
-                    nrAreaFlat: number,
-                    dsFlat: string,
-                    dsRegras: string,
-                    snInternet: string,
-                    snCriancas: string,
-                    snMobilidadeReduzida: string,
-                    snFumantes: string,
-                    snAnimais: string,
-                    snFestas: string,
-                    snLongoPrazo: string,
+    constructor(){};
+
+    // constructor(    dsTituloAnuncio: string,
+    //                 endereco: string,
+    //                 numero: number,
+    //                 complemento: string,
+    //                 pais: string,
+    //                 estado: string,
+    //                 cidade: string,
+    //                 bairro: string,
+    //                 cep: string,
+    //                 snCondominio: string,
+    //                 nrQuartos: number,
+    //                 nrBanheiros: number,
+    //                 nrMaxPessoas: number,
+    //                 vlBasicoDiaria: number,
+    //                 nrAreaFlat: number,
+    //                 dsFlat: string,
+    //                 dsRegras: string,
+    //                 snInternet: string,
+    //                 snCriancas: string,
+    //                 snMobilidadeReduzida: string,
+    //                 snFumantes: string,
+    //                 snAnimais: string,
+    //                 snFestas: string,
+    //                 snLongoPrazo: string,
                 
-                    dtCadastro: Date,
-                    cdUsuarioCadastro: number,
+    //                 dtCadastro: Date,
+    //                 cdUsuarioCadastro: number,
                 
-                    dtAlteracao: Date,
-                    cdUsuarioAlteracao: number,
+    //                 dtAlteracao: Date,
+    //                 cdUsuarioAlteracao: number,
                 
-                    snAtivo: string) {
+    //                 snAtivo: string) {
 
-        this.dsTituloAnuncio = dsTituloAnuncio;
-        this.endereco = endereco;
-        this.numero = numero;
-        this.complemento = complemento;
-        this.pais = pais;
-        this.estado = estado;
-        this.cidade = cidade;
-        this.bairro = bairro;
-        this.cep = cep;
-        this.snCondominio = snCondominio;
-        this.nrQuartos = nrQuartos;
-        this.nrBanheiros = nrBanheiros;
-        this.nrMaxPessoas = nrMaxPessoas;
-        this.vlBasicoDiaria = vlBasicoDiaria;
-        this.nrAreaFlat = nrAreaFlat;
-        this.dsFlat = dsFlat;
-        this.dsRegras = dsRegras;
-        this.snInternet = snInternet;
-        this.snCriancas = snCriancas;
-        this.snMobilidadeReduzida = snMobilidadeReduzida;
-        this.snFumantes = snFumantes;
-        this.snAnimais = snAnimais;
-        this.snFestas = snFestas;
-        this.snLongoPrazo = snLongoPrazo;
+    //     this.dsTituloAnuncio = dsTituloAnuncio;
+    //     this.endereco = endereco;
+    //     this.numero = numero;
+    //     this.complemento = complemento;
+    //     this.pais = pais;
+    //     this.estado = estado;
+    //     this.cidade = cidade;
+    //     this.bairro = bairro;
+    //     this.cep = cep;
+    //     this.snCondominio = snCondominio;
+    //     this.nrQuartos = nrQuartos;
+    //     this.nrBanheiros = nrBanheiros;
+    //     this.nrMaxPessoas = nrMaxPessoas;
+    //     this.vlBasicoDiaria = vlBasicoDiaria;
+    //     this.nrAreaFlat = nrAreaFlat;
+    //     this.dsFlat = dsFlat;
+    //     this.dsRegras = dsRegras;
+    //     this.snInternet = snInternet;
+    //     this.snCriancas = snCriancas;
+    //     this.snMobilidadeReduzida = snMobilidadeReduzida;
+    //     this.snFumantes = snFumantes;
+    //     this.snAnimais = snAnimais;
+    //     this.snFestas = snFestas;
+    //     this.snLongoPrazo = snLongoPrazo;
 
-        this.dtCadastro = dtCadastro;
-        this.cdUsuarioCadastro = cdUsuarioCadastro;
+    //     this.dtCadastro = dtCadastro;
+    //     this.cdUsuarioCadastro = cdUsuarioCadastro;
 
-        this.dtAlteracao = dtAlteracao;
-        this.cdUsuarioAlteracao = cdUsuarioAlteracao;
+    //     this.dtAlteracao = dtAlteracao;
+    //     this.cdUsuarioAlteracao = cdUsuarioAlteracao;
 
-        this.snAtivo = snAtivo;
+    //     this.snAtivo = snAtivo;
 
-    }
+    // }
 
     public setCodigo(codigo: number) {
         this.codigo = codigo;
