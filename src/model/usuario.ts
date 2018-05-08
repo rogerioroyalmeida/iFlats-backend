@@ -1,15 +1,16 @@
 export class Usuario {
 
-    private codigo: number;
+    private cd_usuario: number;
     private email: string;
-    private senha: string;
+    private ds_Nome: string;
+    private ds_sobrenome: string;
 
-    public setCodigo(codigo: number) {
-        this.codigo = codigo;
+    public setCdUsuario(cd_usuario: number) {
+        this.cd_usuario = cd_usuario;
     }
 
-    public getCodigo() {
-        return this.codigo;
+    public getCdUsuario() {
+        return this.cd_usuario;
     }
 
     public setEmail(email: string) {
@@ -20,11 +21,19 @@ export class Usuario {
         return this.email;
     }
 
-    public setSenha(senha: string) {
-        this.senha = senha;
+    public setDsNome(ds_Nome: string) {
+        this.ds_Nome = ds_Nome;
     }
 
-    public getSenha() {
-        return this.senha;
+    public getDsNome() {
+        return this.ds_Nome;
+    }
+
+    public setDsSobreNome(ds_sobrenome: string) {
+        this.ds_sobrenome = ds_sobrenome;
+    }
+
+    public getDsSobreNome() {
+        return this.ds_sobrenome;
     }
 }
