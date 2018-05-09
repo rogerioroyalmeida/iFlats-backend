@@ -16,7 +16,7 @@ export class ItensGeralRouter {
    * GET all itens_geral.
    */
   public getAll(req: Request, res: Response, next: NextFunction) {
-    execSQLQuery('SELECT cd_itgeral, ds_itgeral, observacao, valor, campo01, campo02, campo03, campo04, dt_cadastro FROM itens_geral', res);
+    execSQLQuery('SELECT cd_itgeral, ds_itgeral, observacao, valor, campo01, campo02, campo03, campo04, dt_cadastro, cd_usuario_cadastro FROM itens_geral ORDER BY ds_itgeral', res);
   }
 
   /**
@@ -25,7 +25,18 @@ export class ItensGeralRouter {
   public getOne(req: Request, res: Response, next: NextFunction) {
     let filter = '';
     if(req.params.cd_itgeral) filter = ` AND cd_itgeral='` + req.params.cd_itgeral + `'`;
-    execSQLQuery(`SELECT cd_itgeral, ds_itgeral, observacao, valor, campo01, campo02, campo03, campo04, dt_cadastro FROM itens_geral WHERE 1 = 1` + filter, res);
+    filter = filter + ' ORDER BY ds_itgeral ';
+    execSQLQuery(`SELECT cd_itgeral, ds_itgeral, observacao, valor, campo01, campo02, campo03, campo04, dt_cadastro, cd_usuario_cadastro FROM itens_geral WHERE 1 = 1` + filter, res);
+  }
+
+  /**
+   * GET one itens_geral by usuario
+   */
+  public getByUsuario(req: Request, res: Response, next: NextFunction) {
+    let filter = '';
+    if(req.params.cd_usuario_cadastro) filter = ' AND cd_usuario_cadastro=' + req.params.cd_usuario_cadastro;
+    filter = filter + ' ORDER BY ds_itgeral ';
+    execSQLQuery(`SELECT cd_itgeral, ds_itgeral, observacao, valor, campo01, campo02, campo03, campo04, dt_cadastro, cd_usuario_cadastro FROM itens_geral WHERE 1 = 1 ` + filter, res);
   }
 
   public postItensGeral(req: Request, res: Response, next: NextFunction) {
@@ -37,8 +48,8 @@ export class ItensGeralRouter {
     if(req.body.campo03) var campo03 = req.body.campo03;
     if(req.body.campo04) var campo04 = req.body.campo04;
 
-    execSQLQuery(`INSERT INTO itens_geral(ds_itgeral, observacao, valor, campo01, campo02, campo03, campo04, dt_cadastro) 
-                    VALUES('${ds_itgeral}', '${observacao}', ${valor}, '${campo01}', '${campo02}', '${campo03}', '${campo04}', SYSDATE())`, res);
+    execSQLQuery(`INSERT INTO itens_geral(ds_itgeral, observacao, valor, campo01, campo02, campo03, campo04, dt_cadastro, cd_usuario_cadastro) 
+                    VALUES('${ds_itgeral}', '${observacao}', ${valor}, '${campo01}', '${campo02}', '${campo03}', '${campo04}', SYSDATE(), 1)`, res);
   }
 
   public patchItensGeral(req: Request, res: Response, next: NextFunction) {
@@ -68,6 +79,7 @@ export class ItensGeralRouter {
   init() {
     this.router.get('', this.getAll);
     this.router.get('/:cd_itgeral', this.getOne);
+    this.router.get('/usuario/:cd_usuario_cadastro', this.getByUsuario);
     this.router.post('', this.postItensGeral);
     this.router.patch('/:cd_itgeral', this.patchItensGeral);
     this.router.delete('/:cd_itgeral', this.deleteItensGeral);
