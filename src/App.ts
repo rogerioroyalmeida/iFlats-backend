@@ -4,6 +4,8 @@ import * as bodyParser from 'body-parser';
 
 import UsuarioRouter from './routes/UsuarioRouter';
 import FlatRouter from './routes/FlatRouter';
+import ItensGeralRouter from './routes/ItensGeralRouter';
+import FlatItGeralRouter from './routes/FlatItGeralRouter';
 
 // Creates and configures an ExpressJS web server.
 class App {
@@ -41,6 +43,8 @@ class App {
     this.express.use('/iflats', router);
     this.express.use('/iflats/usuarios', UsuarioRouter);
     this.express.use('/iflats/flats', FlatRouter);
+    this.express.use('/iflats/itens_geral', ItensGeralRouter);
+    this.express.use('/iflats/flats_itgeral', FlatItGeralRouter);
   }
 
 }
