@@ -128,7 +128,7 @@ export class FlatRouter {
   init() {
     this.router.get('/', this.getAll);
     this.router.get('/:cd_flat?', this.getOne);
-    this.router.get('/usuarios/:cd_usuario?', this.getAllFromUser);
+    this.router.get('/usuario/:cd_usuario?', this.getAllFromUser);
     this.router.post('/', this.postFlat);
     this.router.patch('/:cd_flat', this.patchFlat);
     this.router.delete('/:cd_flat', this.deleteFlat);
