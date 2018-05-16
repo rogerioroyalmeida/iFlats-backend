@@ -8,6 +8,7 @@ import ItensGeralRouter from './routes/ItensGeralRouter';
 import FlatItGeralRouter from './routes/FlatItGeralRouter';
 import ItensCozinhaRouter from './routes/ItensCozinhaRouter';
 import FlatItCozinhaRouter from './routes/FlatItCozinhaRouter';
+import FavoritosRouter from './routes/FavoritosRouter';
 
 // Creates and configures an ExpressJS web server.
 class App {
@@ -49,6 +50,7 @@ class App {
     this.express.use('/iflats/flats_itgeral', FlatItGeralRouter);
     this.express.use('/iflats/itens_cozinha', ItensCozinhaRouter);
     this.express.use('/iflats/flats_itcozinha', FlatItCozinhaRouter);
+    this.express.use('/iflats/favoritos', FavoritosRouter);
   }
 
 }

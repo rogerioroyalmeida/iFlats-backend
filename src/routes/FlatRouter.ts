@@ -1,6 +1,10 @@
 import {Router, Request, Response, NextFunction} from 'express';
 import { Flat } from '../model/flat'
 import * as mysql from 'mysql';
+import * as fs from 'fs';
+
+var multer = require('multer');
+var path = require('path');
 
 export class FlatRouter {
   router: Router;
@@ -37,6 +41,32 @@ export class FlatRouter {
     let filter = '';
     if(req.params.cd_usuario) filter = ' AND cd_usuario_cadastro=' + parseInt(req.params.cd_usuario);
     execSQLQuery(`SELECT * FROM flat WHERE sn_ativo = 'S'` + filter, res);
+  }
+
+  /**
+   * GET all from filters.
+   */
+  public getAllFromFilters(req: Request, res: Response, next: NextFunction) {
+    let filter = '';
+    if(req.params.destino) {
+      filter = ` AND (flat.ds_endereco LIKE '%` + parseInt(req.params.destino) + `%'`;
+      filter = filter + ` OR flat.ds_pais like '%` + parseInt(req.params.destino) + `%'`;
+      filter = filter + ` OR flat.ds_estado like '%` + parseInt(req.params.destino) + `%'`;
+      filter = filter + ` OR flat.ds_cidade like '%` + parseInt(req.params.destino) + `%'`;
+      filter = filter + ` OR flat.ds_bairro like '%` + parseInt(req.params.destino) + `%'`;
+      filter = filter + ` OR flat.ds_titulo_anuncio like '%` + parseInt(req.params.destino) + `%' ) `;
+    }
+
+    if(req.params.dt_inicial) filter = filter + ' AND ' + req.params.dt_inicial + ' NOT BETWEEN solicitacao_reserva.dt_inicial AND solicitacao_reserva.dt_final';
+    if(req.params.dt_final) filter = filter + ' AND ' + req.params.dt_final + ' NOT BETWEEN solicitacao_reserva.dt_inicial AND solicitacao_reserva.dt_final';
+
+    execSQLQuery(`SELECT flat.* ` + 
+                 `  FROM flat, ` +
+                 `       solicitacao_reserva, ` +
+                 `       reserva ` +
+                 ` WHERE flat.sn_ativo = 'S' ` +
+                 `   AND flat.cd_flat = solicitacao_reserva.cd_flat (+) ` +
+                 `   AND solicitacao_reserva.cd_solic_reserva = reserva.cd_solicitacao_reserva (+)` + filter, res);
   }
 
   public postFlat(req: Request, res: Response, next: NextFunction) {
@@ -121,6 +151,42 @@ export class FlatRouter {
     execSQLQuery('DELETE FROM flat WHERE cd_flat=' + parseInt(req.params.cd_flat), res);
   }
 
+  public postFlatFoto(req, res, next) {
+
+    var storage = multer.diskStorage({
+      destination: function (req, file, callback) {
+        fs.mkdir('./uploads', function(err) {
+            if(err) {
+                console.log(err.stack)
+            } else {
+                callback(null, './uploads');
+            }
+        })
+      },
+      filename: function (req, file, callback) {
+        callback(null, file.fieldname + '-' + Date.now());
+      }
+    });
+
+    var upload = multer({ 
+      storage : storage,
+      fileFilter: function (req, file, callback) {
+        var ext = path.extname(file.originalname);
+        if(ext !== '.png' && ext !== '.jpg' && ext !== '.gif' && ext !== '.jpeg') {
+            return callback(new Error('Only images are allowed'))
+        }
+        callback(null, true)
+      }}).single('flat_foto');
+
+    upload(req, res,function(err) {
+        if(err) {
+            return res.end("Error uploading file.");
+        }
+        res.end("File is uploaded: " + req.file);
+    });
+
+  }
+
   /**
    * Take each handler, and attach to one of the Express.Router's
    * endpoints.
@@ -129,7 +195,11 @@ export class FlatRouter {
     this.router.get('/', this.getAll);
     this.router.get('/:cd_flat?', this.getOne);
     this.router.get('/usuario/:cd_usuario?', this.getAllFromUser);
+    this.router.get('/filtros/:destino/:dt_inicio/:dt_fim', this.getAllFromFilters);
     this.router.post('/', this.postFlat);
+
+    this.router.post('/flat_foto', this.postFlatFoto);
+
     this.router.patch('/:cd_flat', this.patchFlat);
     this.router.delete('/:cd_flat', this.deleteFlat);
   }
