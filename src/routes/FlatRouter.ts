@@ -44,6 +44,15 @@ export class FlatRouter {
   }
 
   /**
+   * GET all flats.
+   */
+  public getAllByUserMensagens(req: Request, res: Response, next: NextFunction) {
+    let filter = '';
+    if(req.params.cd_usuario) filter = ' AND flat.cd_usuario_cadastro=' + parseInt(req.params.cd_usuario);
+    execSQLQuery(`SELECT flat.* FROM flat, central_mensagem WHERE flat.sn_ativo = 'S' AND flat.cd_flat = central_mensagem.cd_mensagem AND flat.cd_usuario_cadastro = central_mensagem.cd_usuario_emissario` + filter, res);
+  }
+
+  /**
    * GET all from filters.
    */
   public getAllFromFilters(req: Request, res: Response, next: NextFunction) {
@@ -195,6 +204,7 @@ export class FlatRouter {
     this.router.get('/', this.getAll);
     this.router.get('/:cd_flat?', this.getOne);
     this.router.get('/usuario/:cd_usuario?', this.getAllFromUser);
+    this.router.get('/mensagens/:cd_usuario', this.getAllByUserMensagens);
     this.router.get('/filtros/:destino/:dt_inicio/:dt_fim', this.getAllFromFilters);
     this.router.post('/', this.postFlat);
 

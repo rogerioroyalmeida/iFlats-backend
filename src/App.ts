@@ -9,6 +9,9 @@ import FlatItGeralRouter from './routes/FlatItGeralRouter';
 import ItensCozinhaRouter from './routes/ItensCozinhaRouter';
 import FlatItCozinhaRouter from './routes/FlatItCozinhaRouter';
 import FavoritosRouter from './routes/FavoritosRouter';
+import MensagensRouter from './routes/MensagensRouter';
+import ItensEntretenimentoRouter from './routes/ItensEntretenimentoRouter';
+import FlatItEntretenimentoRouter from './routes/FlatItEntretenimentoRouter';
 
 // Creates and configures an ExpressJS web server.
 class App {
@@ -50,7 +53,10 @@ class App {
     this.express.use('/iflats/flats_itgeral', FlatItGeralRouter);
     this.express.use('/iflats/itens_cozinha', ItensCozinhaRouter);
     this.express.use('/iflats/flats_itcozinha', FlatItCozinhaRouter);
+    this.express.use('/iflats/itens_entretenimento', ItensEntretenimentoRouter);
+    this.express.use('/iflats/flats_itentretenimento', FlatItEntretenimentoRouter);
     this.express.use('/iflats/favoritos', FavoritosRouter);
+    this.express.use('/iflats/mensagens', MensagensRouter);
   }
 
 }

@@ -37,7 +37,7 @@ export class FlatItCozinhaRouter {
 
   }
 
-  public deleteFlatItGeral(req: Request, res: Response, next: NextFunction) {
+  public deleteFlatItCozinha(req: Request, res: Response, next: NextFunction) {
     execSQLQuery('DELETE FROM flats_itcozinha WHERE cd_flat=' + parseInt(req.params.cd_flat), res);
   }
 
@@ -49,7 +49,7 @@ export class FlatItCozinhaRouter {
     this.router.get('', this.getAll);
     this.router.get('/:cd_flat', this.getByFlat);
     this.router.post('', this.postFlatItCozinha);
-    this.router.delete('/:cd_flat', this.deleteFlatItGeral);
+    this.router.delete('/:cd_flat', this.deleteFlatItCozinha);
   }
 
 }

@@ -19,16 +19,25 @@ export class UsuarioRouter {
    * GET all usuarios.
    */
   public getAll(req: Request, res: Response, next: NextFunction) {
-    execSQLQuery('SELECT cd_usuario, email, ds_nome, ds_sobrenome, campo01, dt_cadastro, campo02, campo_real, dt_movimentacao, observacao FROM usuario', res);
+    execSQLQuery('SELECT cd_usuario, email, ds_nome, ds_sobrenome, campo01, dt_cadastro, campo02, campo_real, dt_movimentacao, observacao, sn_adm FROM usuario', res);
   }
 
   /**
-   * GET one usuario by id
+   * GET one usuario by email
    */
   public getOne(req: Request, res: Response, next: NextFunction) {
     let filter = '';
     if(req.params.email) filter = ` AND email='` + req.params.email + `'`;
-    execSQLQuery(`SELECT cd_usuario, email, ds_nome, ds_sobrenome, campo01, dt_cadastro, campo02, campo_real, dt_movimentacao, observacao FROM usuario WHERE 1 = 1` + filter, res);
+    execSQLQuery(`SELECT cd_usuario, email, ds_nome, ds_sobrenome, campo01, dt_cadastro, campo02, campo_real, dt_movimentacao, observacao, sn_adm FROM usuario WHERE 1 = 1` + filter, res);
+  }
+
+  /**
+   * GET one usuario by codigo
+   */
+  public getOneByCodigo(req: Request, res: Response, next: NextFunction) {
+    let filter = '';
+    if(req.params.cd_usuario) filter = ` AND cd_usuario=` + req.params.cd_usuario;
+    execSQLQuery(`SELECT cd_usuario, email, ds_nome, ds_sobrenome, campo01, dt_cadastro, campo02, campo_real, dt_movimentacao, observacao, sn_adm FROM usuario WHERE 1 = 1` + filter, res);
   }
 
   public postUsuario(req: Request, res: Response, next: NextFunction) {
@@ -37,8 +46,8 @@ export class UsuarioRouter {
     if(req.body.senha) var senha = req.body.senha;
     if(req.body.ds_sobrenome) var ds_sobrenome = req.body.ds_sobrenome;
 
-    execSQLQuery(`INSERT INTO usuario(ds_nome, email, ds_sobrenome, dt_cadastro) 
-                    VALUES('${nome}', '${email}', ${ds_sobrenome}, SYSDATE())`, res);
+    execSQLQuery(`INSERT INTO usuario(ds_nome, email, ds_sobrenome, dt_cadastro, sn_adm) 
+                    VALUES('${nome}', '${email}', ${ds_sobrenome}, SYSDATE(), 'N')`, res);
   }
 
   public patchUsuario(req: Request, res: Response, next: NextFunction) {
@@ -76,6 +85,7 @@ export class UsuarioRouter {
   init() {
     this.router.get('', this.getAll);
     this.router.get('/:email', this.getOne);
+    this.router.get('/codigo/:cd_usuario', this.getOneByCodigo);
     this.router.post('', this.postUsuario);
     this.router.post('/login', this.login);
     this.router.patch('/:cd_usuario', this.patchUsuario);
