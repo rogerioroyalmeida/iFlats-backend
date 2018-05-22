@@ -48,6 +48,16 @@ export class MensagensRouter {
   }
 
   /**
+   * GET all central_mensagem by flat e usuario dest
+   */
+  public getAllByFlatUsuarioDest(req: Request, res: Response, next: NextFunction) {
+    let filter = '';
+    if(req.params.cd_flat) filter = ` AND cd_flat=` + req.params.cd_flat;
+    if(req.params.cd_usuario_destinatario) filter = filter + ` AND cd_usuario_destinatario=` + req.params.cd_usuario_destinatario;
+    execSQLQuery(`SELECT cd_mensagem, cd_flat, ds_mensagem, anexo_01, cd_usuario_emissario, cd_usuario_destinatario, dt_mensagem, anexo_02, status, time FROM central_mensagem WHERE 1 = 1` + filter, res);
+  }
+
+  /**
    * GET all central_mensagem by cd_usuario_emissario
    */
   public getAllByUsuarios(req: Request, res: Response, next: NextFunction) {
@@ -100,6 +110,7 @@ export class MensagensRouter {
     this.router.get('/:cd_mensagem', this.getOne);
     this.router.get('/flat/:cd_flat', this.getAllByFlat);
     this.router.get('/flat/usuario/:cd_flat/:cd_usuario_emissario', this.getAllByFlatUsuario);
+    this.router.get('/flat/usuario_dest/:cd_flat/:cd_usuario_destinatario', this.getAllByFlatUsuarioDest);
     this.router.get('/usuarios/emissario/:cd_usuario_emissario/destinatario/:cd_usuario_destinatario', this.getAllByUsuarios);
     this.router.post('', this.postMensagem);
     this.router.patch('/:cd_mensagem', this.patchMensagem);
