@@ -41,13 +41,17 @@ export class UsuarioRouter {
   }
 
   public postUsuario(req: Request, res: Response, next: NextFunction) {
-    if(req.body.nome) var nome = req.body.nome;
-    if(req.body.email) var email = req.body.email;
-    if(req.body.senha) var senha = req.body.senha;
-    if(req.body.ds_sobrenome) var ds_sobrenome = req.body.ds_sobrenome;
+    var nome = '';
+    if(req.body.nome) nome = req.body.nome;
+    var email = '';
+    if(req.body.email) email = req.body.email;
+    var senha = '';
+    if(req.body.senha) senha = req.body.senha;
+    var ds_sobrenome = '';
+    if(req.body.ds_sobrenome) ds_sobrenome = req.body.ds_sobrenome;
 
     execSQLQuery(`INSERT INTO usuario(ds_nome, email, ds_sobrenome, dt_cadastro, sn_adm) 
-                    VALUES('${nome}', '${email}', ${ds_sobrenome}, SYSDATE(), 'N')`, res);
+                    VALUES('${nome}', '${email}', '${ds_sobrenome}', SYSDATE(), 'N')`, res);
   }
 
   public patchUsuario(req: Request, res: Response, next: NextFunction) {

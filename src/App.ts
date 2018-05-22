@@ -12,6 +12,8 @@ import FavoritosRouter from './routes/FavoritosRouter';
 import MensagensRouter from './routes/MensagensRouter';
 import ItensEntretenimentoRouter from './routes/ItensEntretenimentoRouter';
 import FlatItEntretenimentoRouter from './routes/FlatItEntretenimentoRouter';
+import SolicitacaoReservaRouter from './routes/SolicitacaoReservaRouter';
+import ReservaRouter from './routes/ReservaRouter';
 
 // Creates and configures an ExpressJS web server.
 class App {
@@ -57,6 +59,8 @@ class App {
     this.express.use('/iflats/flats_itentretenimento', FlatItEntretenimentoRouter);
     this.express.use('/iflats/favoritos', FavoritosRouter);
     this.express.use('/iflats/mensagens', MensagensRouter);
+    this.express.use('/iflats/solicitacao_reserva', SolicitacaoReservaRouter);
+    this.express.use('/iflats/reserva', ReservaRouter);
   }
 
 }
