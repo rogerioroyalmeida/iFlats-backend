@@ -48,8 +48,7 @@ export class FlatRouter {
    */
   public getAllByUserMensagens(req: Request, res: Response, next: NextFunction) {
     let filter = '';
-    if(req.params.cd_usuario) filter = ' AND flat.cd_usuario_cadastro=' + parseInt(req.params.cd_usuario);
-    execSQLQuery(`SELECT flat.* FROM flat, central_mensagem WHERE flat.sn_ativo = 'S' AND flat.cd_flat = central_mensagem.cd_mensagem AND flat.cd_usuario_cadastro = central_mensagem.cd_usuario_emissario` + filter, res);
+    execSQLQuery(`SELECT DISTINCT flat.cd_flat, flat.ds_titulo_anuncio, flat.ds_endereco, flat.nr_endereco, flat.ds_complemento, flat.ds_pais, flat.ds_estado, flat.ds_cidade, flat.ds_bairro, flat.nr_cep, flat.sn_condominio, flat.nr_quartos, flat.nr_banheiros, flat.nr_max_pessoas, flat.vl_basico_diaria, flat.nr_area_flat, flat.ds_flat, flat.ds_regras, flat.sn_internet, flat.sn_criancas, flat.sn_mobilidade_reduzida, flat.sn_fumantes, flat.sn_animais, flat.sn_festas, flat.sn_longo_prazo, flat.dt_cadastro, flat.cd_usuario_cadastro, flat.dt_alteracao, flat.cd_usuario_alteracao, flat.sn_ativo, flat.cd_usuario_geren_responsavel, flat.observacao, flat.status FROM flat, central_mensagem WHERE flat.sn_ativo = 'S' AND flat.cd_flat IN (SELECT cd_flat FROM central_mensagem WHERE cd_usuario_emissario=` + parseInt(req.params.cd_usuario) + ')', res);
   }
 
   /**
