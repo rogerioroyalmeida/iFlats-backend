@@ -29,6 +29,16 @@ export class ReservaRouter {
     execSQLQuery(`SELECT cd_reserva, cd_solicitacao_reserva, vl_restante, observacao FROM reserva WHERE 1 = 1` + filter, res);
   }
 
+  /**
+   * GET one reserva by id
+   */
+  public getByUser(req: Request, res: Response, next: NextFunction) {
+    let filter = '';
+    if(req.params.cd_usuario) filter = ` AND solicitacao_reserva.cd_usuario_responsavel=` + req.params.cd_usuario;
+    filter = filter + ' ORDER BY reserva.cd_reserva ';
+    execSQLQuery(`SELECT reserva.cd_reserva, reserva.cd_solicitacao_reserva, reserva.vl_restante, reserva.observacao FROM reserva, solicitacao_reserva WHERE reserva.cd_solicitacao_reserva = solicitacao_reserva.cd_solic_reserva` + filter, res);
+  }
+
   public postReserva(req: Request, res: Response, next: NextFunction) {
     if(req.body.cd_solicitacao_reserva) var cd_solicitacao_reserva = req.body.cd_solicitacao_reserva;
     if(req.body.vl_restante) var vl_restante = req.body.vl_restante;
@@ -59,6 +69,7 @@ export class ReservaRouter {
   init() {
     this.router.get('', this.getAll);
     this.router.get('/:cd_reserva', this.getOne);
+    this.router.get('/usuario/:cd_usuario', this.getByUser);
     this.router.post('', this.postReserva);
     this.router.patch('/:cd_reserva', this.patchReserva);
     this.router.delete('/:cd_reserva', this.deleteReserva);

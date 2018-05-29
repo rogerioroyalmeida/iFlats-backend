@@ -16,7 +16,7 @@ export class SolicitacaoReservaRouter {
    * GET all solicitacao_reserva.
    */
   public getAll(req: Request, res: Response, next: NextFunction) {
-    execSQLQuery('SELECT cd_solic_reserva, cd_flat, cd_usuario, cd_usuario_responsavel, dt_inicial, dt_final, nr_dias, nr_pessoas, vl_diaria, vl_entrada, vl_total FROM solicitacao_reserva ORDER BY cd_flat', res);
+    execSQLQuery('SELECT cd_solic_reserva, cd_flat, cd_usuario, cd_usuario_responsavel, dt_inicial, dt_final, nr_dias, nr_pessoas, vl_diaria, vl_entrada, vl_total, status FROM solicitacao_reserva ORDER BY cd_flat', res);
   }
 
   /**
@@ -26,7 +26,7 @@ export class SolicitacaoReservaRouter {
     let filter = '';
     if(req.params.cd_solic_reserva) filter = ` AND cd_solic_reserva='` + req.params.cd_solic_reserva + `'`;
     filter = filter + ' ORDER BY cd_flat ';
-    execSQLQuery(`SELECT cd_solic_reserva, cd_flat, cd_usuario, cd_usuario_responsavel, dt_inicial, dt_final, nr_dias, nr_pessoas, vl_diaria, vl_entrada, vl_total FROM solicitacao_reserva WHERE 1 = 1` + filter, res);
+    execSQLQuery(`SELECT cd_solic_reserva, cd_flat, cd_usuario, cd_usuario_responsavel, dt_inicial, dt_final, nr_dias, nr_pessoas, vl_diaria, vl_entrada, vl_total, status FROM solicitacao_reserva WHERE 1 = 1` + filter, res);
   }
 
   /**
@@ -36,7 +36,7 @@ export class SolicitacaoReservaRouter {
     let filter = '';
     if(req.params.cd_usuario) filter = ' AND cd_usuario=' + req.params.cd_usuario;
     filter = filter + ' ORDER BY cd_flat ';
-    execSQLQuery(`SELECT cd_solic_reserva, cd_flat, cd_usuario, cd_usuario_responsavel, dt_inicial, dt_final, nr_dias, nr_pessoas, vl_diaria, vl_entrada, vl_total FROM solicitacao_reserva WHERE 1 = 1 ` + filter, res);
+    execSQLQuery(`SELECT cd_solic_reserva, cd_flat, cd_usuario, cd_usuario_responsavel, dt_inicial, dt_final, nr_dias, nr_pessoas, vl_diaria, vl_entrada, vl_total, status FROM solicitacao_reserva WHERE 1 = 1 ` + filter, res);
   }
 
   /**
@@ -46,7 +46,7 @@ export class SolicitacaoReservaRouter {
     let filter = '';
     if(req.params.cd_usuario_responsavel) filter = ' AND cd_usuario_responsavel=' + req.params.cd_usuario_responsavel;
     filter = filter + ' ORDER BY cd_flat ';
-    execSQLQuery(`SELECT cd_solic_reserva, cd_flat, cd_usuario, cd_usuario_responsavel, dt_inicial, dt_final, nr_dias, nr_pessoas, vl_diaria, vl_entrada, vl_total FROM solicitacao_reserva WHERE 1 = 1 ` + filter, res);
+    execSQLQuery(`SELECT cd_solic_reserva, cd_flat, cd_usuario, cd_usuario_responsavel, dt_inicial, dt_final, nr_dias, nr_pessoas, vl_diaria, vl_entrada, vl_total, status FROM solicitacao_reserva WHERE 1 = 1 AND status='A'` + filter, res);
   }
 
   public postSolicitacaoReserva(req: Request, res: Response, next: NextFunction) {
@@ -61,8 +61,8 @@ export class SolicitacaoReservaRouter {
     if(req.body.vl_entrada) var vl_entrada = req.body.vl_entrada;
     if(req.body.vl_total) var vl_total = req.body.vl_total;
 
-    execSQLQuery(`INSERT INTO solicitacao_reserva(cd_flat, cd_usuario, cd_usuario_responsavel, dt_inicial, dt_final, nr_dias, nr_pessoas, vl_diaria, vl_entrada, vl_total) 
-                    VALUES(${cd_flat}, ${cd_usuario}, ${cd_usuario_responsavel}, ${dt_inicial}, ${dt_final}, ${nr_dias}, ${nr_pessoas}, ${vl_diaria}, ${vl_entrada}, ${vl_total})`, res);
+    execSQLQuery(`INSERT INTO solicitacao_reserva(cd_flat, cd_usuario, cd_usuario_responsavel, dt_inicial, dt_final, nr_dias, nr_pessoas, vl_diaria, vl_entrada, vl_total, status) 
+                    VALUES(${cd_flat}, ${cd_usuario}, ${cd_usuario_responsavel}, '${dt_inicial}', '${dt_final}', ${nr_dias}, ${nr_pessoas}, ${vl_diaria}, ${vl_entrada}, ${vl_total}, 'A')`, res);
   }
 
   public patchSolicitacaoReserva(req: Request, res: Response, next: NextFunction) {
@@ -78,8 +78,9 @@ export class SolicitacaoReservaRouter {
     if(req.body.vl_diaria) var vl_diaria = req.body.vl_diaria;
     if(req.body.vl_entrada) var vl_entrada = req.body.vl_entrada;
     if(req.body.vl_total) var vl_total = req.body.vl_total;
+    if(req.body.status) var status = req.body.status;
 
-    execSQLQuery(`UPDATE solicitacao_reserva SET cd_flat=${cd_flat}, cd_usuario=${cd_usuario}, cd_usuario_responsavel=${cd_usuario_responsavel}, dt_inicial=${dt_inicial}, dt_final=${dt_final}, nr_dias=${nr_dias}, nr_pessoas=${nr_pessoas}, vl_diaria=${vl_diaria}, vl_entrada=${vl_entrada}, vl_total=${vl_total} WHERE cd_solic_reserva=${cd_solic_reserva}`, res);
+    execSQLQuery(`UPDATE solicitacao_reserva SET cd_flat=${cd_flat}, cd_usuario=${cd_usuario}, cd_usuario_responsavel=${cd_usuario_responsavel}, dt_inicial=${dt_inicial}, dt_final=${dt_final}, nr_dias=${nr_dias}, nr_pessoas=${nr_pessoas}, vl_diaria=${vl_diaria}, vl_entrada=${vl_entrada}, vl_total=${vl_total}, status='${status}' WHERE cd_solic_reserva=${cd_solic_reserva}`, res);
   }
 
   public deleteSolicitacaoReserva(req: Request, res: Response, next: NextFunction) {
