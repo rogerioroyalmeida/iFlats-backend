@@ -42,7 +42,10 @@ export class ReservaRouter {
   public postReserva(req: Request, res: Response, next: NextFunction) {
     if(req.body.cd_solicitacao_reserva) var cd_solicitacao_reserva = req.body.cd_solicitacao_reserva;
     if(req.body.vl_restante) var vl_restante = req.body.vl_restante;
-    if(req.body.observacao) var observacao = req.body.observacao;
+    if(req.body.observacao) 
+      var observacao = req.body.observacao;
+    else 
+      var observacao = '';
 
     execSQLQuery(`INSERT INTO reserva(cd_solicitacao_reserva, vl_restante, observacao) 
                     VALUES(${cd_solicitacao_reserva}, ${vl_restante}, '${observacao}')`, res);

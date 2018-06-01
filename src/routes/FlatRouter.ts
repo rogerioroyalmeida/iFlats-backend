@@ -106,6 +106,8 @@ export class FlatRouter {
     req.body.snFestas ? f.setSnFestas(req.body.snFestas) : f.setSnFestas("");
     req.body.snLongoPrazo ? f.setSnFLongoPrazo(req.body.snLongoPrazo) : f.setSnFLongoPrazo("");
 
+    if(req.params.cd_usuario_cadastro) var cd_usuario_cadastro = req.params.cd_usuario_cadastro;
+
     execSQLQuery(`INSERT INTO flat(ds_titulo_anuncio, ds_endereco, nr_endereco, ds_complemento, ds_pais,
                         ds_estado, ds_cidade, ds_bairro, nr_cep, sn_condominio, nr_quartos,
                         nr_banheiros, nr_max_pessoas, vl_basico_diaria, nr_area_flat, ds_flat,
@@ -115,7 +117,7 @@ export class FlatRouter {
                         '${f.getEstado()}', '${f.getCidade()}', '${f.getBairro()}', ${f.getCep()}, '${f.getSnCondominio()}', ${f.getNrQuartos()},
                         ${f.getNrBanheiros()}, ${f.getNrMaxPessoas()}, ${f.getVlBasicoDiaria()}, ${f.getNrAreaFlat()}, '${f.getDsFlat()}',
                         '${f.getDsRegras()}', '${f.getSnInternet()}', '${f.getSnCriancas()}', '${f.getSnMobilidadeReduzida()}', '${f.getSnFumantes()}',
-                        '${f.getSnAnimais()}', '${f.getSnFestas()}', '${f.getSnLongoPrazo()}', SYSDATE(), 1, 'S')`, res);
+                        '${f.getSnAnimais()}', '${f.getSnFestas()}', '${f.getSnLongoPrazo()}', SYSDATE(), ${cd_usuario_cadastro}, 'S')`, res);
   }
 
   public patchFlat(req: Request, res: Response, next: NextFunction) {
@@ -148,11 +150,13 @@ export class FlatRouter {
     req.body.snFestas ? f.setSnFestas(req.body.snFestas) : f.setSnFestas("");
     req.body.snLongoPrazo ? f.setSnFLongoPrazo(req.body.snLongoPrazo) : f.setSnFLongoPrazo("");
 
+    if(req.params.cd_usuario_alteracao) var cd_usuario_alteracao = req.params.cd_usuario_alteracao;
+
     execSQLQuery(`UPDATE flat SET ds_titulo_anuncio='${f.getDsTituloAnuncio()}', ds_endereco='${f.getEndereco()}', nr_endereco='${f.getNumero()}', ds_complemento='${f.getComplemento()}', ds_pais='${f.getPais()}',
                                 ds_estado='${f.getEstado()}', ds_cidade='${f.getCidade()}', ds_bairro='${f.getBairro()}', nr_cep='${f.getCep()}', sn_condominio='${f.getSnCondominio()}', nr_quartos='${f.getNrQuartos()}',
                                 nr_banheiros='${f.getNrBanheiros()}', nr_max_pessoas='${f.getNrMaxPessoas()}', vl_basico_diaria='${f.getVlBasicoDiaria()}', nr_area_flat='${f.getNrAreaFlat()}', ds_flat='${f.getDsFlat()}',
                                 ds_regras='${f.getDsRegras()}', sn_internet='${f.getSnInternet()}', sn_criancas='${f.getSnCriancas()}', sn_mobilidade_reduzida='${f.getSnMobilidadeReduzida()}', sn_fumantes='${f.getSnFumantes()}',
-                                sn_animais='${f.getSnAnimais()}', sn_festas='${f.getSnFestas()}', sn_longo_prazo='${f.getSnLongoPrazo()}', dt_alteracao = SYSDATE(), cd_usuario_alteracao = 1 WHERE cd_flat=${cd_flat}`, res);
+                                sn_animais='${f.getSnAnimais()}', sn_festas='${f.getSnFestas()}', sn_longo_prazo='${f.getSnLongoPrazo()}', dt_alteracao = SYSDATE(), cd_usuario_alteracao = ${cd_usuario_alteracao} WHERE cd_flat=${cd_flat}`, res);
   }
 
   public deleteFlat(req: Request, res: Response, next: NextFunction) {
@@ -205,11 +209,11 @@ export class FlatRouter {
     this.router.get('/usuario/:cd_usuario?', this.getAllFromUser);
     this.router.get('/mensagens/:cd_usuario', this.getAllByUserMensagens);
     this.router.get('/filtros/:destino/:dt_inicio/:dt_fim', this.getAllFromFilters);
-    this.router.post('/', this.postFlat);
+    this.router.post('/:cd_usuario_cadastro', this.postFlat);
 
     this.router.post('/flat_foto', this.postFlatFoto);
 
-    this.router.patch('/:cd_flat', this.patchFlat);
+    this.router.patch('/usuario/:cd_usuario_alteracao/flat/:cd_flat', this.patchFlat);
     this.router.delete('/:cd_flat', this.deleteFlat);
   }
 

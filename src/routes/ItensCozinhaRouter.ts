@@ -47,9 +47,10 @@ export class ItensCozinhaRouter {
     if(req.body.campo02) var campo02 = req.body.campo02;
     if(req.body.campo03) var campo03 = req.body.campo03;
     if(req.body.campo04) var campo04 = req.body.campo04;
+    if(req.params.cd_usuario_cadastro) var cd_usuario_cadastro = req.params.cd_usuario_cadastro;
 
     execSQLQuery(`INSERT INTO it_cozinha(ds_itemcozinha, observacao, valor, campo01, campo02, campo03, campo04, dt_cadastro, cd_usuario_cadastro) 
-                    VALUES('${ds_itemcozinha}', '${observacao}', ${valor}, '${campo01}', '${campo02}', '${campo03}', '${campo04}', SYSDATE(), 1)`, res);
+                    VALUES('${ds_itemcozinha}', '${observacao}', ${valor}, '${campo01}', '${campo02}', '${campo03}', '${campo04}', SYSDATE(), ${cd_usuario_cadastro})`, res);
   }
 
   public patchItensCozinha(req: Request, res: Response, next: NextFunction) {
@@ -80,7 +81,7 @@ export class ItensCozinhaRouter {
     this.router.get('', this.getAll);
     this.router.get('/:cd_itemcozinha', this.getOne);
     this.router.get('/usuario/:cd_usuario_cadastro', this.getByUsuario);
-    this.router.post('', this.postItensCozinha);
+    this.router.post('/:cd_usuario_cadastro', this.postItensCozinha);
     this.router.patch('/:cd_itemcozinha', this.patchItensCozinha);
     this.router.delete('/:cd_itemcozinha', this.deleteItensCozinha);
   }
