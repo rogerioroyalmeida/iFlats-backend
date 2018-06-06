@@ -57,24 +57,27 @@ export class FlatRouter {
   public getAllFromFilters(req: Request, res: Response, next: NextFunction) {
     let filter = '';
     if(req.params.destino) {
-      filter = ` AND (flat.ds_endereco LIKE '%` + parseInt(req.params.destino) + `%'`;
-      filter = filter + ` OR flat.ds_pais like '%` + parseInt(req.params.destino) + `%'`;
-      filter = filter + ` OR flat.ds_estado like '%` + parseInt(req.params.destino) + `%'`;
-      filter = filter + ` OR flat.ds_cidade like '%` + parseInt(req.params.destino) + `%'`;
-      filter = filter + ` OR flat.ds_bairro like '%` + parseInt(req.params.destino) + `%'`;
-      filter = filter + ` OR flat.ds_titulo_anuncio like '%` + parseInt(req.params.destino) + `%' ) `;
+      filter = ` AND (UPPER(flat.ds_endereco) LIKE '%UPPER(` + req.params.destino + `)%'`;
+      filter = filter + ` OR UPPER(lat.ds_pais) like '%UPPER(` + req.params.destino + `)%'`;
+      filter = filter + ` OR UPPER(flat.ds_estado) like '%UPPER(` + req.params.destino + `)%'`;
+      filter = filter + ` OR UPPER(flat.ds_cidade) like '%UPPER(` + req.params.destino + `)%'`;
+      filter = filter + ` OR UPPER(flat.ds_bairro) like '%UPPER(` + req.params.destino + `)%'`;
+      filter = filter + ` OR UPPER(flat.ds_titulo_anuncio) like '%UPPER(` + req.params.destino + `)%' ) `;
     }
 
-    if(req.params.dt_inicial) filter = filter + ' AND ' + req.params.dt_inicial + ' NOT BETWEEN solicitacao_reserva.dt_inicial AND solicitacao_reserva.dt_final';
-    if(req.params.dt_final) filter = filter + ' AND ' + req.params.dt_final + ' NOT BETWEEN solicitacao_reserva.dt_inicial AND solicitacao_reserva.dt_final';
+    let filterPeriodo = '';
+    if (req.params.dt_inicial && req.params.dt_final && req.params.dt_inicial != 'undefined' && req.params.dt_final != 'undefined') {
+      filterPeriodo = filterPeriodo + ` AND STR_TO_DATE('` + req.params.dt_inicial + `', '%d-%m-%Y') BETWEEN solicitacao_reserva.dt_inicial AND solicitacao_reserva.dt_final `;
+      filterPeriodo = filterPeriodo + `  OR STR_TO_DATE('` + req.params.dt_final + `', '%d-%m-%Y') BETWEEN solicitacao_reserva.dt_inicial AND solicitacao_reserva.dt_final `;
+    }
 
     execSQLQuery(`SELECT flat.* ` + 
-                 `  FROM flat, ` +
-                 `       solicitacao_reserva, ` +
-                 `       reserva ` +
+                 `  FROM flat ` +
                  ` WHERE flat.sn_ativo = 'S' ` +
-                 `   AND flat.cd_flat = solicitacao_reserva.cd_flat (+) ` +
-                 `   AND solicitacao_reserva.cd_solic_reserva = reserva.cd_solicitacao_reserva (+)` + filter, res);
+                 `   AND flat.cd_flat not in( ` +
+                 `                           Select solicitacao_reserva.cd_flat ` +
+                 `                             from solicitacao_reserva ` +
+                 `                            where solicitacao_reserva.status = 'R' ` + filterPeriodo + ` )` + filter, res);
   }
 
   public postFlat(req: Request, res: Response, next: NextFunction) {
@@ -208,7 +211,7 @@ export class FlatRouter {
     this.router.get('/:cd_flat?', this.getOne);
     this.router.get('/usuario/:cd_usuario?', this.getAllFromUser);
     this.router.get('/mensagens/:cd_usuario', this.getAllByUserMensagens);
-    this.router.get('/filtros/:destino/:dt_inicio/:dt_fim', this.getAllFromFilters);
+    this.router.get('/filtros/destino/:destino/dtinicial/:dt_inicial/dtfinal/:dt_final', this.getAllFromFilters);
     this.router.post('/:cd_usuario_cadastro', this.postFlat);
 
     this.router.post('/flat_foto', this.postFlatFoto);

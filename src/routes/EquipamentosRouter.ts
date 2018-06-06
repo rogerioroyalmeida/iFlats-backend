@@ -47,9 +47,10 @@ export class EquipamentosRouter {
     if(req.body.campo02) var campo02 = req.body.campo02;
     if(req.body.campo03) var campo03 = req.body.campo03;
     if(req.body.campo04) var campo04 = req.body.campo04;
+    if(req.params.cd_usuario_cadastro) var cd_usuario_cadastro = req.params.cd_usuario_cadastro;
 
     execSQLQuery(`INSERT INTO equipamentos(ds_equipamento, observacao, valor, campo01, campo02, campo03, campo04, dt_cadastro, cd_usuario_cadastro) 
-                    VALUES('${ds_equipamento}', '${observacao}', ${valor}, '${campo01}', '${campo02}', '${campo03}', '${campo04}', SYSDATE(), 1)`, res);
+                    VALUES('${ds_equipamento}', '${observacao}', ${valor}, '${campo01}', '${campo02}', '${campo03}', '${campo04}', SYSDATE(), ${cd_usuario_cadastro})`, res);
   }
 
   public patchEquipamento(req: Request, res: Response, next: NextFunction) {
@@ -80,7 +81,7 @@ export class EquipamentosRouter {
     this.router.get('', this.getAll);
     this.router.get('/:cd_equipamento', this.getOne);
     this.router.get('/usuario/:cd_usuario_cadastro', this.getByUsuario);
-    this.router.post('', this.postEquipamento);
+    this.router.post('/:cd_usuario_cadastro', this.postEquipamento);
     this.router.patch('/:cd_equipamento', this.patchEquipamento);
     this.router.delete('/:cd_equipamento', this.deleteEquipamento);
   }
