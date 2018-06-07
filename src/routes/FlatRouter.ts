@@ -58,7 +58,7 @@ export class FlatRouter {
     let filter = '';
     if(req.params.destino) {
       filter = ` AND (UPPER(flat.ds_endereco) LIKE '%UPPER(` + req.params.destino + `)%'`;
-      filter = filter + ` OR UPPER(lat.ds_pais) like '%UPPER(` + req.params.destino + `)%'`;
+      filter = filter + ` OR UPPER(flat.ds_pais) like '%UPPER(` + req.params.destino + `)%'`;
       filter = filter + ` OR UPPER(flat.ds_estado) like '%UPPER(` + req.params.destino + `)%'`;
       filter = filter + ` OR UPPER(flat.ds_cidade) like '%UPPER(` + req.params.destino + `)%'`;
       filter = filter + ` OR UPPER(flat.ds_bairro) like '%UPPER(` + req.params.destino + `)%'`;
