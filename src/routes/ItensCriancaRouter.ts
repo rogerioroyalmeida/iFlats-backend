@@ -26,7 +26,7 @@ export class ItensCriancaRouter {
     let filter = '';
     if(req.params.cd_itcrianca) filter = ` AND cd_itcrianca='` + req.params.cd_itcrianca + `'`;
     filter = filter + ' ORDER BY ds_itcrianca ';
-    execSQLQuery(`SELECTcd_itcrianca, ds_itcrianca, dt_movimentacao,observacao, valor, campo01, campo02, campo03, campo04, dt_cadastro, cd_usuario_cadastro FROM itens_crianca WHERE 1 = 1` + filter, res);
+    execSQLQuery(`SELECT cd_itcrianca, ds_itcrianca, dt_movimentacao,observacao, valor, campo01, campo02, campo03, campo04, dt_cadastro, cd_usuario_cadastro FROM itens_crianca WHERE 1 = 1` + filter, res);
   }
 
   /**

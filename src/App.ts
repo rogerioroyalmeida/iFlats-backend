@@ -21,6 +21,9 @@ import ItensEntretenimentoRouter from './routes/ItensEntretenimentoRouter';
 import FlatItEntretenimentoRouter from './routes/FlatItEntretenimentoRouter';
 import SolicitacaoReservaRouter from './routes/SolicitacaoReservaRouter';
 import ReservaRouter from './routes/ReservaRouter';
+import FlatItEquipamentoRouter from './routes/FlatItEquipamentoRouter';
+import FlatItServicoRouter from './routes/FlatItServicoRouter';
+import FlatItCriancaRouter from './routes/FlatItCriancaRouter';
 
 // Creates and configures an ExpressJS web server.
 class App {
@@ -60,10 +63,15 @@ class App {
     this.express.use('/iflats/flats', FlatRouter);
     
     this.express.use('/iflats/itens_crianca', ItensCriancaRouter);    
-    this.express.use('/iflats/equipamento', EquipamentosRouter );
-    this.express.use('/iflats/servico', ServicoRouter );
+    this.express.use('/iflats/flats_itcrianca', FlatItCriancaRouter);
 
-    this.express.use('/iflats/itens_instalacao', ItensInstalacaoRouter );
+    this.express.use('/iflats/equipamento', EquipamentosRouter );
+    this.express.use('/iflats/flats_itequipamento', FlatItEquipamentoRouter);
+
+    this.express.use('/iflats/servico', ServicoRouter);
+    this.express.use('/iflats/flats_itservico', FlatItServicoRouter);
+
+    this.express.use('/iflats/itens_instalacao', ItensInstalacaoRouter);
     this.express.use('/iflats/flats_itinstalacao', FlatItInstalacaoRouter);
     
     this.express.use('/iflats/itens_geral', ItensGeralRouter);    
