@@ -8,8 +8,9 @@ import FlatRouter from './routes/FlatRouter';
 import ItensCriancaRouter from './routes/ItensCriancaRouter';
 import EquipamentosRouter from './routes/EquipamentosRouter';
 import ServicoRouter from './routes/ServicoRouter';
-import ItensInstalacaoRouter from './routes/ItensInstalacaoRouter';
 
+import ItensInstalacaoRouter from './routes/ItensInstalacaoRouter';
+import FlatItInstalacaoRouter from './routes/FlatItInstalacaoRouter';
 import ItensGeralRouter from './routes/ItensGeralRouter';
 import FlatItGeralRouter from './routes/FlatItGeralRouter';
 import ItensCozinhaRouter from './routes/ItensCozinhaRouter';
@@ -58,15 +59,19 @@ class App {
     this.express.use('/iflats/usuarios', UsuarioRouter);
     this.express.use('/iflats/flats', FlatRouter);
     
-    this.express.use('/iflats/itens_crianca', ItensCriancaRouter);
+    this.express.use('/iflats/itens_crianca', ItensCriancaRouter);    
     this.express.use('/iflats/equipamento', EquipamentosRouter );
     this.express.use('/iflats/servico', ServicoRouter );
-    this.express.use('/iflats/itens_instalacao', ItensInstalacaoRouter );
 
-    this.express.use('/iflats/itens_geral', ItensGeralRouter);
+    this.express.use('/iflats/itens_instalacao', ItensInstalacaoRouter );
+    this.express.use('/iflats/flats_itinstalacao', FlatItInstalacaoRouter);
+    
+    this.express.use('/iflats/itens_geral', ItensGeralRouter);    
     this.express.use('/iflats/flats_itgeral', FlatItGeralRouter);
+
     this.express.use('/iflats/itens_cozinha', ItensCozinhaRouter);
     this.express.use('/iflats/flats_itcozinha', FlatItCozinhaRouter);
+
     this.express.use('/iflats/itens_entretenimento', ItensEntretenimentoRouter);
     this.express.use('/iflats/flats_itentretenimento', FlatItEntretenimentoRouter);
     this.express.use('/iflats/favoritos', FavoritosRouter);
